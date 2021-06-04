@@ -1,3 +1,4 @@
 #pragma once
 
-unsigned int PrintMenu();
+unsigned int PrintMainMenu();
+unsigned int PrintChangeItemMenu();

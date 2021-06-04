@@ -11,6 +11,7 @@ public:
 	//~StoreItems();
 	void AddStoreItem(const GroceryItem& newItem);
 	void PrintAllItems();
+	GroceryItem* FindItem(string itemName);
 	//remove item function?
 };
 

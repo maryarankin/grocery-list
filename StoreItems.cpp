@@ -26,3 +26,16 @@ void StoreItems::PrintAllItems() {
 		allItems[i].PrintItem();
 	}
 }
+
+GroceryItem* StoreItems::FindItem(string itemName) {
+	GroceryItem* foundItem = nullptr;
+
+	for (int i = 0; i < totalItems; i++) {
+		if (allItems[i].GetItemName() == itemName) {
+			foundItem = &allItems[i];
+			break;
+		}
+	}
+
+	return foundItem;
+}
