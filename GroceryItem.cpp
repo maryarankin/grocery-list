@@ -25,5 +25,5 @@ unsigned int GroceryItem::GetAisleNumber() {
 	return _aisleNumber;
 }
 void GroceryItem::PrintItem() {
-	cout << _itemName << ": " << _itemCategory << ", " << _storeSection << ", " << _aisleNumber << endl;
+	cout << "item: " << _itemName << ", category: " << _itemCategory << ", section: " << _storeSection << ", aisle: " << _aisleNumber << endl;
 }
