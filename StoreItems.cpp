@@ -1,41 +1,59 @@
+#include <vector>
 #include "StoreItems.h"
 
-StoreItems::StoreItems() {
-	storeCapacity = 10;
-	allItems = new GroceryItem[storeCapacity];
-	totalItems = 0;
-}
+bool StoreItems::AddStoreItem(GroceryItem* newItem) {  //note: had to remove const from params b/c couldn't get newItem's name otherwise - fix this
+	bool added = true;
 
-void StoreItems::AddStoreItem(const GroceryItem& newItem) {
-	if (storeCapacity == totalItems) {
-		unsigned int newSize = storeCapacity + 10;
-		GroceryItem* tempArray = new GroceryItem[newSize];
-		for (unsigned int i = 0; i < totalItems; i++) {
-			tempArray[i] = allItems[i];
+	for (int i = 0; i < allItems.size(); i++) {
+		if (allItems.at(i).GetItemName() == newItem->GetItemName()) {
+			added = false;
+			break;
 		}
-		delete[] allItems;
-		allItems = tempArray;
 	}
 
-	allItems[totalItems] = newItem;
-	totalItems++;
+	if (added) {
+		allItems.push_back(*newItem);
+	}
+	else {
+		delete newItem;
+	}
+	
+	return added;
+}
+
+unsigned int StoreItems::GetTotalNumItems() {
+	return allItems.size();
 }
 
 void StoreItems::PrintAllItems() {
-	for (int i = 0; i < totalItems; i++) {
-		allItems[i].PrintItem();
+	for (int i = 0; i < allItems.size(); i++) {
+		allItems.at(i).PrintItem();
 	}
 }
 
 GroceryItem* StoreItems::FindItem(string itemName) {
 	GroceryItem* foundItem = nullptr;
 
-	for (int i = 0; i < totalItems; i++) {
-		if (allItems[i].GetItemName() == itemName) {
-			foundItem = &allItems[i];
+	for (int i = 0; i < allItems.size(); i++) {
+		if (allItems.at(i).GetItemName() == itemName) {
+			foundItem = &allItems.at(i);
 			break;
 		}
 	}
 
 	return foundItem;
+}
+
+bool StoreItems::DeleteItem(string itemName) {
+	bool deleted = false;
+
+	for (int i = 0; i < allItems.size(); i++) {
+		if (allItems.at(i).GetItemName() == itemName) {
+			allItems.erase(allItems.begin()+i);
+			deleted = true;
+			break;
+		}
+	}
+
+	return deleted;
 }

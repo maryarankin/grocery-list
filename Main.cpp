@@ -17,41 +17,51 @@ int main()
 
     //error checking if 1-9 isn't entered
     //if (userInput < 1 || userInput > 9) { throw new Exception }
-    //also ensure it's an int
 
-    //note: get a whole line until newline in case item name has >1 word
     while (userInput != 10) {
 
         if (userInput == 1) {
-            storeItems->PrintAllItems();
+            unsigned int numItems = storeItems->GetTotalNumItems();
+            if (numItems == 0) {
+                cout << "No items yet" << endl;
+            }
+            else {
+                storeItems->PrintAllItems();
+            }
             cout << endl;
         }
 
         else if (userInput == 2) {
-
-            //PREVENT DUPLICATE ITEM NAMES
             string itemName;
             cout << "Please enter the item's name: ";
-            cin >> itemName;
+            getline(cin, itemName);
 
             string itemCategory;
             cout << "Please enter the category of the item: ";
-            cin >> itemCategory;
+            getline(cin, itemCategory);
 
             string storeSection;
             cout << "Please enter the section where the item is found: ";
-            cin >> storeSection;
+            getline(cin, storeSection);
 
+            string stringAisleNumber;
             unsigned int aisleNumber;
             cout << "Please enter the aisle number where the item is found, or 0 if no aisle: ";
-            cin >> aisleNumber;
+            getline(cin, stringAisleNumber);
+            aisleNumber = convertToInt(stringAisleNumber);
 
             GroceryItem* newItem = new GroceryItem(itemName, itemCategory, storeSection, aisleNumber);
-            storeItems->AddStoreItem(*newItem);
+            bool added = storeItems->AddStoreItem(newItem);
 
             cout << endl;
-            cout << "Successfully added the following item:" << endl;
-            newItem->PrintItem();
+
+            if (added) {
+                cout << "Successfully added the following item:" << endl;
+                newItem->PrintItem();
+            }
+            else {
+                cout << "Item already exists" << endl;
+            }
             
             cout << endl;
         }
@@ -60,7 +70,7 @@ int main()
             string itemToFind;
             //MAKE THE INPUT LOWERCASE
             cout << "Please enter the name of the item you'd like to change: ";
-            cin >> itemToFind;
+            getline(cin, itemToFind);
 
             cout << endl;
             GroceryItem* foundItem = storeItems->FindItem(itemToFind);
@@ -76,29 +86,30 @@ int main()
                 if (itemChangeInput == 1) {
                     string newItemName;
                     cout << "Please enter new item name: ";
-                    cin >> newItemName;
+                    getline(cin, newItemName);
 
                     foundItem->SetItemName(newItemName);
                 }
                 else if (itemChangeInput == 2) {
                     string newItemCat;
                     cout << "Please enter new item category: ";
-                    cin >> newItemCat;
+                    getline(cin, newItemCat);
 
                     foundItem->SetItemCategory(newItemCat);
                 }
                 else if (itemChangeInput == 3) {
                     string newStoreSection;
                     cout << "Please enter new store section: ";
-                    cin >> newStoreSection;
+                    getline(cin, newStoreSection);
 
                     foundItem->SetStoreSection(newStoreSection);
                 }
                 else if (itemChangeInput == 4) {
+                    string stringNewAisleNum;
                     unsigned int newAisleNum;
-                    //ERROR CHECKING - MAKE SURE USER ENTERS AN INT
                     cout << "Please enter new aisle number: ";
-                    cin >> newAisleNum;
+                    getline(cin, stringNewAisleNum);
+                    newAisleNum = convertToInt(stringNewAisleNum);
 
                     foundItem->SetAisleNumber(newAisleNum);
                 }
@@ -109,6 +120,23 @@ int main()
             }
 
             foundItem->PrintItem();
+            cout << endl;
+        }
+
+        else if (userInput == 4) {
+            string itemToDelete;
+            cout << "Enter name of item to delete: "; //OR, COULD PRINT LIST OF ITEMS TO DELETE WITH # NEXT TO THEM
+            getline(cin, itemToDelete);
+
+            bool deleted = storeItems->DeleteItem(itemToDelete);
+            cout << endl;
+
+            if (deleted) {
+                cout << "Successfully deleted " << itemToDelete << endl;
+            }
+            else {
+                cout << "Could not find " << itemToDelete << endl;
+            }
             cout << endl;
         }
 
@@ -130,6 +158,7 @@ int main()
 }
 
 unsigned int PrintMainMenu() {
+    string stringUserInput;
     unsigned int userInput = 0;
 
     cout << "MAIN MENU" << endl;
@@ -147,7 +176,14 @@ unsigned int PrintMainMenu() {
     cout << endl;
     cout << "Please choose a menu option: ";
 
-    cin >> userInput;
+    getline(cin, stringUserInput);
+    userInput = convertToInt(stringUserInput);
+
+    if (userInput < 1 || userInput > 10) {
+        cout << "Invalid input. Try again." << endl;
+        cout << endl;
+        userInput = PrintMainMenu();
+    }
 
     cout << endl;
 
@@ -155,6 +191,7 @@ unsigned int PrintMainMenu() {
 }
 
 unsigned int PrintChangeItemMenu() {
+    string stringItemChangeInput;
     unsigned int itemChangeInput = 0;
 
     cout << "1. Item name" << endl;
@@ -165,10 +202,28 @@ unsigned int PrintChangeItemMenu() {
     cout << endl;
     cout << "Please choose an option: ";
 
-    cin >> itemChangeInput;
+    getline(cin, stringItemChangeInput);
+    itemChangeInput = convertToInt(stringItemChangeInput);
 
     cout << endl;
 
     return itemChangeInput;
+}
+
+unsigned int convertToInt(string stringInt) {
+    unsigned int convertedInt;
+
+    try {
+        convertedInt = stoi(stringInt);
+    }
+    catch (...) {
+        cout << endl;
+        cout << "Must enter a number" << endl;
+        cout << "Try again: ";
+        getline(cin, stringInt);
+        convertedInt = convertToInt(stringInt);
+    }
+
+    return convertedInt;
 }
 
