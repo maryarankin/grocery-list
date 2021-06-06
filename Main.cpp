@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Main.h"
 #include "StoreItems.h"
+#include "GroceryList.h"
 #include "GroceryItem.h"
 using namespace std;
 
@@ -10,6 +11,7 @@ int main()
     cout << endl;
 
     StoreItems* storeItems = new StoreItems;
+    vector<GroceryList> allGroceryLists;
 
     unsigned int userInput = 0;
 
@@ -32,38 +34,7 @@ int main()
         }
 
         else if (userInput == 2) {
-            string itemName;
-            cout << "Please enter the item's name: ";
-            getline(cin, itemName);
-
-            string itemCategory;
-            cout << "Please enter the category of the item: ";
-            getline(cin, itemCategory);
-
-            string storeSection;
-            cout << "Please enter the section where the item is found: ";
-            getline(cin, storeSection);
-
-            string stringAisleNumber;
-            unsigned int aisleNumber;
-            cout << "Please enter the aisle number where the item is found, or 0 if no aisle: ";
-            getline(cin, stringAisleNumber);
-            aisleNumber = convertToInt(stringAisleNumber);
-
-            GroceryItem* newItem = new GroceryItem(itemName, itemCategory, storeSection, aisleNumber);
-            bool added = storeItems->AddStoreItem(newItem);
-
-            cout << endl;
-
-            if (added) {
-                cout << "Successfully added the following item:" << endl;
-                newItem->PrintItem();
-            }
-            else {
-                cout << "Item already exists" << endl;
-            }
-            
-            cout << endl;
+            CreateItem(storeItems);
         }
 
         else if (userInput == 3) {
@@ -109,7 +80,7 @@ int main()
                     unsigned int newAisleNum;
                     cout << "Please enter new aisle number: ";
                     getline(cin, stringNewAisleNum);
-                    newAisleNum = convertToInt(stringNewAisleNum);
+                    newAisleNum = ConvertToInt(stringNewAisleNum);
 
                     foundItem->SetAisleNumber(newAisleNum);
                 }
@@ -141,6 +112,47 @@ int main()
         }
 
         else if (userInput == 6) {
+            string newListName;
+            cout << "Enter name of new list: ";
+            getline(cin, newListName);
+            cout << endl;
+
+            GroceryList* newList = new GroceryList(newListName);
+            allGroceryLists.push_back(*newList);
+
+            string itemToAdd = "X";
+
+            cout << "Press Q when done adding items" << endl;
+            cout << "Add first item to " << newListName << ": ";
+            getline(cin, itemToAdd);
+
+            while (itemToAdd != "Q") {
+                GroceryItem* foundItem = storeItems->FindItem(itemToAdd);
+                if (foundItem == nullptr) {
+                    string createItem;
+                    cout << "This item doesn't exist yet. Would you like to create it?" << endl;
+                    cout << "Press Y for yes or N for no: ";
+                    getline(cin, createItem);
+                    if (createItem == "Y") {
+                        CreateItem(storeItems);
+                    }
+                    else {
+                        cout << "Item not created" << endl;
+                        cout << endl;
+                    }
+                }
+                else {
+                    newList->AddToList(*foundItem);
+                    cout << "Added " << foundItem->GetItemName() << " to list" << endl;
+                    cout << endl;
+                }
+
+                cout << "Press Q when done adding items" << endl;
+                cout << "Add item to " << newListName << ": ";
+                getline(cin, itemToAdd);
+            }
+            
+
             //what item would you like to add?
             //that item doesn't exist - would you like to create it?
         }
@@ -161,6 +173,7 @@ unsigned int PrintMainMenu() {
     string stringUserInput;
     unsigned int userInput = 0;
 
+    //NOTE: ADD OPTION FOR SEARCHING ITEMS BY CATEGORY
     cout << "MAIN MENU" << endl;
     cout << "---------------" << endl;
     cout << "1. View all items" << endl;
@@ -177,7 +190,7 @@ unsigned int PrintMainMenu() {
     cout << "Please choose a menu option: ";
 
     getline(cin, stringUserInput);
-    userInput = convertToInt(stringUserInput);
+    userInput = ConvertToInt(stringUserInput);
 
     if (userInput < 1 || userInput > 10) {
         cout << "Invalid input. Try again." << endl;
@@ -203,14 +216,14 @@ unsigned int PrintChangeItemMenu() {
     cout << "Please choose an option: ";
 
     getline(cin, stringItemChangeInput);
-    itemChangeInput = convertToInt(stringItemChangeInput);
+    itemChangeInput = ConvertToInt(stringItemChangeInput);
 
     cout << endl;
 
     return itemChangeInput;
 }
 
-unsigned int convertToInt(string stringInt) {
+unsigned int ConvertToInt(string stringInt) {
     unsigned int convertedInt;
 
     try {
@@ -221,9 +234,43 @@ unsigned int convertToInt(string stringInt) {
         cout << "Must enter a number" << endl;
         cout << "Try again: ";
         getline(cin, stringInt);
-        convertedInt = convertToInt(stringInt);
+        convertedInt = ConvertToInt(stringInt);
     }
 
     return convertedInt;
 }
 
+void CreateItem(StoreItems* storeItems) {
+    string itemName;
+    cout << "Please enter the item's name: ";
+    getline(cin, itemName);
+
+    string itemCategory;
+    cout << "Please enter the category of the item: ";
+    getline(cin, itemCategory);
+
+    string storeSection;
+    cout << "Please enter the section where the item is found: ";
+    getline(cin, storeSection);
+
+    string stringAisleNumber;
+    unsigned int aisleNumber;
+    cout << "Please enter the aisle number where the item is found, or 0 if no aisle: ";
+    getline(cin, stringAisleNumber);
+    aisleNumber = ConvertToInt(stringAisleNumber);
+
+    GroceryItem* newItem = new GroceryItem(itemName, itemCategory, storeSection, aisleNumber);
+    bool added = storeItems->AddStoreItem(newItem);
+
+    cout << endl;
+
+    if (added) {
+        cout << "Successfully added the following item:" << endl;
+        newItem->PrintItem();
+    }
+    else {
+        cout << "Item already exists" << endl;
+    }
+
+    cout << endl;
+}

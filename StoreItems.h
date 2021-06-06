@@ -5,7 +5,7 @@ using std::vector;
 
 class StoreItems
 {
-	vector<GroceryItem> allItems;
+	vector<GroceryItem> allItems;  //ADD UNDERSCORE TO ALLITEMS
 public:
 	//StoreItems();
 	//~StoreItems();
