@@ -17,9 +17,6 @@ int main()
 
     userInput = PrintMainMenu();
 
-    //error checking if 1-9 isn't entered
-    //if (userInput < 1 || userInput > 9) { throw new Exception }
-
     while (userInput != 10) {
 
         if (userInput == 1) {
@@ -38,12 +35,12 @@ int main()
         }
 
         else if (userInput == 3) {
-            string itemToFind;
-            //MAKE THE INPUT LOWERCASE
-
             GroceryItem* foundItem = nullptr;
+
+            string itemToFind;
             cout << "Please enter the name of the item you'd like to change: ";
             getline(cin, itemToFind);
+            itemToFind = MakeLowercase(itemToFind);
             cout << endl;
             
             foundItem = storeItems->FindItem(itemToFind);
@@ -65,6 +62,7 @@ int main()
                         string newItemName;
                         cout << "Please enter new item name: ";
                         getline(cin, newItemName);
+                        newItemName = MakeLowercase(newItemName);
 
                         foundItem->SetItemName(newItemName);
                     }
@@ -72,6 +70,7 @@ int main()
                         string newItemCat;
                         cout << "Please enter new item category: ";
                         getline(cin, newItemCat);
+                        newItemCat = MakeLowercase(newItemCat);
 
                         foundItem->SetItemCategory(newItemCat);
                     }
@@ -79,6 +78,7 @@ int main()
                         string newStoreSection;
                         cout << "Please enter new store section: ";
                         getline(cin, newStoreSection);
+                        newStoreSection = MakeLowercase(newStoreSection);
 
                         foundItem->SetStoreSection(newStoreSection);
                     }
@@ -104,8 +104,9 @@ int main()
 
         else if (userInput == 4) {
             string itemToDelete;
-            cout << "Enter name of item to delete: "; //OR, COULD PRINT LIST OF ITEMS TO DELETE WITH # NEXT TO THEM
+            cout << "Enter name of item to delete: ";
             getline(cin, itemToDelete);
+            itemToDelete = MakeLowercase(itemToDelete);
 
             bool deleted = storeItems->DeleteItem(itemToDelete);
             cout << endl;
@@ -151,6 +152,7 @@ int main()
             string newListName;
             cout << "Enter name of new list: ";
             getline(cin, newListName);
+            newListName = MakeLowercase(newListName);
             cout << endl;
 
             GroceryList* newList = new GroceryList(newListName);
@@ -161,14 +163,16 @@ int main()
             cout << "Press Q when done adding items" << endl;
             cout << "Add first item to " << newListName << ": ";
             getline(cin, itemToAdd);
+            itemToAdd = MakeLowercase(itemToAdd);
 
-            while (itemToAdd != "Q" && itemToAdd != "q") {
+            while (itemToAdd != "q") {
                 GroceryItem* foundItem = storeItems->FindItem(itemToAdd);
                 if (foundItem == nullptr) {
                     string createItem;
                     cout << "This item doesn't exist yet. Would you like to create it?" << endl;
                     cout << "Press Y for yes or N for no: ";
                     getline(cin, createItem);
+
                     if (createItem == "Y" || createItem == "y") {
                         GroceryItem* newItem = CreateItem(storeItems, itemToAdd);
                         newList->AddToList(newItem);
@@ -189,6 +193,7 @@ int main()
                 cout << "Press Q when done adding items" << endl;
                 cout << "Add item to " << newListName << ": ";
                 getline(cin, itemToAdd);
+                itemToAdd = MakeLowercase(itemToAdd);
                 cout << endl;
             }
         }
@@ -197,6 +202,7 @@ int main()
             string listToFind;
             cout << "Which list would you like to copy? ";
             getline(cin, listToFind);
+            listToFind = MakeLowercase(listToFind);
             cout << endl;
 
             GroceryList* foundList = nullptr;
@@ -215,6 +221,7 @@ int main()
                 string newListName;
                 cout << "Enter a name for the new list: ";
                 getline(cin, newListName);
+                newListName = MakeLowercase(newListName);
                 cout << endl;
 
                 GroceryList* newList = new GroceryList(newListName);
@@ -237,6 +244,7 @@ int main()
             //MAKE THE INPUT LOWERCASE
             cout << "Please enter the name of the list you'd like to change: ";
             getline(cin, listToFind);
+            listToFind = MakeLowercase(listToFind);
             cout << endl;
 
             GroceryList* foundList = nullptr;
@@ -262,6 +270,7 @@ int main()
                         string itemToAdd;
                         cout << "Enter the name of item to add: ";
                         getline(cin, itemToAdd);
+                        itemToAdd = MakeLowercase(itemToAdd);
 
                         GroceryItem* foundItem = storeItems->FindItem(itemToAdd);
                         if (foundItem == nullptr) {
@@ -291,6 +300,7 @@ int main()
                         string itemToRemove;
                         cout << "Enter the name of item to remove: ";
                         getline(cin, itemToRemove);
+                        itemToRemove = MakeLowercase(itemToRemove);
 
                         vector<GroceryItem*> listItems = foundList->GetListItems();
 
@@ -328,6 +338,7 @@ int main()
             string listToDelete;
             cout << "Enter name of list to delete: ";
             getline(cin, listToDelete);
+            listToDelete = MakeLowercase(listToDelete);
             cout << endl;
 
             bool deleted = false;
@@ -410,6 +421,12 @@ unsigned int PrintChangeItemMenu() {
     getline(cin, stringItemChangeInput);
     itemChangeInput = ConvertToInt(stringItemChangeInput);
 
+    if (itemChangeInput < 1 || itemChangeInput > 5) {
+        cout << "Invalid input. Try again." << endl;
+        cout << endl;
+        itemChangeInput = PrintChangeItemMenu();
+    }
+
     cout << endl;
 
     return itemChangeInput;
@@ -427,6 +444,12 @@ unsigned int PrintChangeListMenu() {
 
     getline(cin, stringListChangeInput);
     listChangeInput = ConvertToInt(stringListChangeInput);
+
+    if (listChangeInput < 1 || listChangeInput > 3) {
+        cout << "Invalid input. Try again." << endl;
+        cout << endl;
+        listChangeInput = PrintChangeListMenu();
+    }
 
     cout << endl;
 
@@ -450,18 +473,33 @@ unsigned int ConvertToInt(string stringInt) {
     return convertedInt;
 }
 
+string MakeLowercase(string userInput) {
+    string lowercaseString = "";
+
+    for (unsigned int i = 0; i < userInput.length(); i++) {
+        char letter = userInput.at(i);
+        char lowercase = tolower(letter);
+        lowercaseString += lowercase;
+    }
+
+    return lowercaseString;
+}
+
 GroceryItem* CreateItem(StoreItems* storeItems) {
     string itemName;
     cout << "Please enter the item's name: ";
     getline(cin, itemName);
+    itemName = MakeLowercase(itemName);
 
     string itemCategory;
     cout << "Please enter the category of the item: ";
     getline(cin, itemCategory);
+    itemCategory = MakeLowercase(itemCategory);
 
     string storeSection;
     cout << "Please enter the section where the item is found: ";
     getline(cin, storeSection);
+    storeSection = MakeLowercase(storeSection);
 
     string stringAisleNumber;
     unsigned int aisleNumber;
@@ -490,10 +528,12 @@ GroceryItem* CreateItem(StoreItems* storeItems, string itemName) {
     string itemCategory;
     cout << "Please enter the category of the item: ";
     getline(cin, itemCategory);
+    itemCategory = MakeLowercase(itemCategory);
 
     string storeSection;
     cout << "Please enter the section where the item is found: ";
     getline(cin, storeSection);
+    storeSection = MakeLowercase(storeSection);
 
     string stringAisleNumber;
     unsigned int aisleNumber;

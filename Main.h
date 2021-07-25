@@ -6,6 +6,7 @@ using std::string;
 unsigned int PrintMainMenu();
 unsigned int PrintChangeItemMenu();
 unsigned int ConvertToInt(string stringInt);
+string MakeLowercase(string userInput);
 GroceryItem* CreateItem(StoreItems* storeItems);
 GroceryItem* CreateItem(StoreItems* storeItems, string itemName);
 unsigned int PrintChangeListMenu();
