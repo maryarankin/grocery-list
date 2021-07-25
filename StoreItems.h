@@ -5,15 +5,13 @@ using std::vector;
 
 class StoreItems
 {
-	vector<GroceryItem> allItems;  //ADD UNDERSCORE TO ALLITEMS
+	vector<GroceryItem*> _allItems;
 public:
-	//StoreItems();
 	//~StoreItems();
 	bool AddStoreItem(GroceryItem* newItem);
 	unsigned int GetTotalNumItems();
 	void PrintAllItems();
 	GroceryItem* FindItem(string itemName);
 	bool DeleteItem(string itemName);
-	//remove item function?
 };
 

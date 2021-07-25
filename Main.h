@@ -6,4 +6,6 @@ using std::string;
 unsigned int PrintMainMenu();
 unsigned int PrintChangeItemMenu();
 unsigned int ConvertToInt(string stringInt);
-void CreateItem(StoreItems* storeItems);
+GroceryItem* CreateItem(StoreItems* storeItems);
+GroceryItem* CreateItem(StoreItems* storeItems, string itemName);
+unsigned int PrintChangeListMenu();
