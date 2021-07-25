@@ -12,7 +12,7 @@ public:
 	GroceryList(string listName);
 	//~GroceryList();
 	string GetListName();
-	vector<GroceryItem*> GetListItems();
+	vector<GroceryItem*>& GetListItems();
 	void PrintGroceryList();
 	void AddToList(GroceryItem* itemToAdd);
 	void DeleteFromList(GroceryItem* itemToDelete);

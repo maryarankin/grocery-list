@@ -194,7 +194,42 @@ int main()
         }
 
         else if (userInput == 7) {
+            string listToFind;
+            cout << "Which list would you like to copy? ";
+            getline(cin, listToFind);
+            cout << endl;
 
+            GroceryList* foundList = nullptr;
+
+            for (unsigned int i = 0; i < allGroceryLists.size(); i++) {
+                if (allGroceryLists.at(i)->GetListName() == listToFind) {
+                    foundList = allGroceryLists.at(i);
+                }
+            }
+
+            if (foundList == nullptr) {
+                cout << "Could not find list" << endl;
+                cout << endl;
+            }
+            else {
+                string newListName;
+                cout << "Enter a name for the new list: ";
+                getline(cin, newListName);
+                cout << endl;
+
+                GroceryList* newList = new GroceryList(newListName);
+
+                vector<GroceryItem*> itemsToAdd = foundList->GetListItems();
+                for (unsigned int i = 0; i < itemsToAdd.size(); i++) {
+                    newList->GetListItems().push_back(itemsToAdd.at(i));
+                }
+                allGroceryLists.push_back(newList);
+
+                cout << "Successfully created list" << endl;
+                cout << endl;
+
+                //would you like to add more items to this list?
+            }
         }
 
         else if (userInput == 8) {
@@ -318,7 +353,6 @@ int main()
         userInput = PrintMainMenu();
     }
 
-    //refs
     //big 3
     //const
 

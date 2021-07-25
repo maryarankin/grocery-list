@@ -8,7 +8,7 @@ string GroceryList::GetListName() {
 	return _listName;
 }
 
-vector<GroceryItem*> GroceryList::GetListItems() {
+vector<GroceryItem*>& GroceryList::GetListItems() {
 	return _listItems;
 }
 
