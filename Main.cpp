@@ -108,6 +108,16 @@ int main()
             getline(cin, itemToDelete);
             itemToDelete = MakeLowercase(itemToDelete);
 
+            //delete item from any lists it is on first:
+            for (unsigned int i = 0; i < allGroceryLists.size(); i++) {
+                vector<GroceryItem*> listItems = allGroceryLists.at(i)->GetListItems();
+                for (unsigned int j = 0; j < listItems.size(); j++) {
+                    if (listItems.at(j)->GetItemName() == itemToDelete) {
+                        allGroceryLists.at(i)->DeleteFromList(listItems.at(j));
+                    }
+                }
+            }
+
             bool deleted = storeItems->DeleteItem(itemToDelete);
             cout << endl;
 
@@ -118,8 +128,6 @@ int main()
                 cout << "Could not find " << itemToDelete << endl;
             }
             cout << endl;
-
-            //DELETE ITEM FROM ALL GROCERY LISTS IT'S ON TOO
         }
 
         else if (userInput == 5) {
@@ -241,7 +249,6 @@ int main()
 
         else if (userInput == 8) {
             string listToFind;
-            //MAKE THE INPUT LOWERCASE
             cout << "Please enter the name of the list you'd like to change: ";
             getline(cin, listToFind);
             listToFind = MakeLowercase(listToFind);
