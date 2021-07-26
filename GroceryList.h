@@ -9,10 +9,14 @@ class GroceryList {
 	string _listName;
 	vector<GroceryItem*> _listItems;
 public:
+	/* CONSTRUCTOR */
 	GroceryList(string listName);
-	//~GroceryList();
+
+	/* ACCESSORS */
 	string GetListName();
 	vector<GroceryItem*>& GetListItems();
+
+	/* FUNCTIONALITY */
 	void PrintGroceryList();
 	void AddToList(GroceryItem* itemToAdd);
 	void DeleteFromList(GroceryItem* itemToDelete);

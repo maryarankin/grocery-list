@@ -3,10 +3,13 @@
 using std::cout;
 using std::endl;
 
+/* CONSTRUCTOR */
 GroceryList::GroceryList(string listName) {
 	_listName = listName;
 }
 
+
+/* ACCESSORS */
 string GroceryList::GetListName() {
 	return _listName;
 }
@@ -15,6 +18,8 @@ vector<GroceryItem*>& GroceryList::GetListItems() {
 	return _listItems;
 }
 
+
+/* FUNCTIONALITY */
 void GroceryList::PrintGroceryList() {
 	if (_listItems.size() == 0) {
 		cout << "No items in list" << endl;

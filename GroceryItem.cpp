@@ -2,7 +2,7 @@
 #include "GroceryItem.h"
 using namespace std;
 
-//CONSTRUCTOR/DESTRUCTOR
+/* CONSTRUCTOR/DESTRUCTOR */
 GroceryItem::GroceryItem(string itemName, string itemCategory, string storeSection, unsigned int aisleNumber) {
 		_itemName = itemName;
 		_itemCategory = itemCategory;
@@ -15,7 +15,7 @@ GroceryItem::~GroceryItem() {
 }
 
 
-//ACCESSORS
+/* ACCESSORS */
 string GroceryItem::GetItemName() {
 	return _itemName;
 }
@@ -33,7 +33,7 @@ unsigned int GroceryItem::GetAisleNumber() {
 }
 
 
-//MUTATORS
+/* MUTATORS */
 void GroceryItem::SetItemName(string itemName) {
 	_itemName = itemName;
 }
@@ -51,7 +51,7 @@ void GroceryItem::SetAisleNumber(unsigned int aisleNumber) {
 }
 
 
-//FUNCTIONALITY
+/* FUNCTIONALITY */
 void GroceryItem::PrintItem() {
 	cout << "item: " << _itemName << ", category: " << _itemCategory << ", section: " << _storeSection << ", aisle: " << _aisleNumber << endl;
 }

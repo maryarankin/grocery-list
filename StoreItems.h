@@ -7,10 +7,13 @@ class StoreItems
 {
 	vector<GroceryItem*> _allItems;
 public:
-	//~StoreItems();
-	bool AddStoreItem(GroceryItem* newItem);
+	/* ACCESSORS */
 	unsigned int GetTotalNumItems();
+	vector<GroceryItem*>& GetAllStoreItems();
+
+	/* FUNCTIONALITY */
 	void PrintAllItems();
+	bool AddStoreItem(GroceryItem* newItem);
 	GroceryItem* FindItem(string itemName);
 	bool DeleteItem(string itemName);
 };

@@ -1,6 +1,23 @@
 #include <vector>
 #include "StoreItems.h"
 
+/* ACCESSORS */
+unsigned int StoreItems::GetTotalNumItems() {
+	return _allItems.size();
+}
+
+vector<GroceryItem*>& StoreItems::GetAllStoreItems() {
+	return _allItems;
+}
+
+
+/* FUNCTIONALITY */
+void StoreItems::PrintAllItems() {
+	for (int i = 0; i < _allItems.size(); i++) {
+		_allItems.at(i)->PrintItem();
+	}
+}
+
 bool StoreItems::AddStoreItem(GroceryItem* newItem) {  //note: had to remove const from params b/c couldn't get newItem's name otherwise - fix this
 	bool added = true;
 
@@ -19,16 +36,6 @@ bool StoreItems::AddStoreItem(GroceryItem* newItem) {  //note: had to remove con
 	}
 	
 	return added;
-}
-
-unsigned int StoreItems::GetTotalNumItems() {
-	return _allItems.size();
-}
-
-void StoreItems::PrintAllItems() {
-	for (int i = 0; i < _allItems.size(); i++) {
-		_allItems.at(i)->PrintItem();
-	}
 }
 
 GroceryItem* StoreItems::FindItem(string itemName) {

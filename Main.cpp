@@ -414,19 +414,27 @@ int main()
         userInput = PrintMainMenu();
     }
 
-    //big 3
-    //const
+    //deallocate memory:
+    vector<GroceryItem*> allStoreItems = storeItems->GetAllStoreItems();
+    for (unsigned int i = 0; i < allStoreItems.size(); i++) {
+        delete allStoreItems.at(i);
+    }
 
     delete storeItems;
+
+    for (unsigned int i = 0; i < allGroceryLists.size(); i++) {
+        delete allGroceryLists.at(i);
+    }
 
     return 0;
 }
 
+
+/* PRINT FUNCTIONS */
 unsigned int PrintMainMenu() {
     string stringUserInput;
     unsigned int userInput = 0;
 
-    //NOTE: ADD OPTION FOR SEARCHING ITEMS BY CATEGORY
     cout << "MAIN MENU" << endl;
     cout << "---------------" << endl;
     cout << "1. View all items" << endl;
@@ -506,6 +514,8 @@ unsigned int PrintChangeListMenu() {
     return listChangeInput;
 }
 
+
+/* INPUT FUNCTIONS */
 unsigned int ConvertToInt(string stringInt) {
     unsigned int convertedInt;
 
@@ -535,6 +545,8 @@ string MakeLowercase(string userInput) {
     return lowercaseString;
 }
 
+
+/* OTHER FUNCTIONALITY */
 GroceryItem* CreateItem(StoreItems* storeItems) {
     string itemName;
     cout << "Please enter the item's name: ";
