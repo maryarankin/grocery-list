@@ -13,5 +13,7 @@ unsigned int ConvertToInt(string stringInt);
 string MakeLowercase(string userInput);
 
 /* OTHER FUNCTIONALITY */
+bool ValidateInputRange(int userInput, int lowerRange, int upperRange);
+GroceryItem* GetItemInfo(string itemName);
 GroceryItem* CreateItem(StoreItems* storeItems);
 GroceryItem* CreateItem(StoreItems* storeItems, string itemName);

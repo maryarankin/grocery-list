@@ -18,7 +18,7 @@ void StoreItems::PrintAllItems() {
 	}
 }
 
-bool StoreItems::AddStoreItem(GroceryItem* newItem) {  //note: had to remove const from params b/c couldn't get newItem's name otherwise - fix this
+bool StoreItems::AddStoreItem(GroceryItem* newItem) {
 	bool added = true;
 
 	for (int i = 0; i < _allItems.size(); i++) {

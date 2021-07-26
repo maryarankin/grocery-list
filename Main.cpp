@@ -146,6 +146,14 @@ int main()
                 int listChoice;
                 getline(cin, stringListChoice);
                 listChoice = ConvertToInt(stringListChoice);
+
+                bool validInput = ValidateInputRange(listChoice, 1, allGroceryLists.size() + 1);
+                while (!validInput) {
+                    cout << "Which list would you like to view? ";
+                    getline(cin, stringListChoice);
+                    listChoice = ConvertToInt(stringListChoice);
+                    validInput = ValidateInputRange(listChoice, 1, allGroceryLists.size() + 1);
+                }
                 
                 if (listChoice != allGroceryLists.size() + 1) {
                     unsigned int index = listChoice - 1;
@@ -453,9 +461,8 @@ unsigned int PrintMainMenu() {
     getline(cin, stringUserInput);
     userInput = ConvertToInt(stringUserInput);
 
-    if (userInput < 1 || userInput > 10) {
-        cout << "Invalid input. Try again." << endl;
-        cout << endl;
+    bool validInput = ValidateInputRange(userInput, 1, 10);
+    if (!validInput) {
         userInput = PrintMainMenu();
     }
 
@@ -479,9 +486,8 @@ unsigned int PrintChangeItemMenu() {
     getline(cin, stringItemChangeInput);
     itemChangeInput = ConvertToInt(stringItemChangeInput);
 
-    if (itemChangeInput < 1 || itemChangeInput > 5) {
-        cout << "Invalid input. Try again." << endl;
-        cout << endl;
+    bool validInput = ValidateInputRange(itemChangeInput, 1, 5);
+    if (!validInput) {
         itemChangeInput = PrintChangeItemMenu();
     }
 
@@ -503,9 +509,8 @@ unsigned int PrintChangeListMenu() {
     getline(cin, stringListChangeInput);
     listChangeInput = ConvertToInt(stringListChangeInput);
 
-    if (listChangeInput < 1 || listChangeInput > 3) {
-        cout << "Invalid input. Try again." << endl;
-        cout << endl;
+    bool validInput = ValidateInputRange(listChangeInput, 1, 3);
+    if (!validInput) {
         listChangeInput = PrintChangeListMenu();
     }
 
@@ -516,6 +521,15 @@ unsigned int PrintChangeListMenu() {
 
 
 /* INPUT FUNCTIONS */
+bool ValidateInputRange(int userInput, int lowerRange, int upperRange) {
+    if (userInput < lowerRange || userInput > upperRange) {
+        cout << "Invalid input. Try again." << endl;
+        cout << endl;
+        return false;
+    }
+    return true;
+}
+
 unsigned int ConvertToInt(string stringInt) {
     unsigned int convertedInt;
 
@@ -547,12 +561,7 @@ string MakeLowercase(string userInput) {
 
 
 /* OTHER FUNCTIONALITY */
-GroceryItem* CreateItem(StoreItems* storeItems) {
-    string itemName;
-    cout << "Please enter the item's name: ";
-    getline(cin, itemName);
-    itemName = MakeLowercase(itemName);
-
+GroceryItem* GetItemInfo(string itemName) {
     string itemCategory;
     cout << "Please enter the category of the item: ";
     getline(cin, itemCategory);
@@ -570,6 +579,17 @@ GroceryItem* CreateItem(StoreItems* storeItems) {
     aisleNumber = ConvertToInt(stringAisleNumber);
 
     GroceryItem* newItem = new GroceryItem(itemName, itemCategory, storeSection, aisleNumber);
+    
+    return newItem;
+}
+
+GroceryItem* CreateItem(StoreItems* storeItems) {
+    string itemName;
+    cout << "Please enter the item's name: ";
+    getline(cin, itemName);
+    itemName = MakeLowercase(itemName);
+
+    GroceryItem* newItem = GetItemInfo(itemName);
     bool added = storeItems->AddStoreItem(newItem);
 
     cout << endl;
@@ -587,23 +607,7 @@ GroceryItem* CreateItem(StoreItems* storeItems) {
 }
 
 GroceryItem* CreateItem(StoreItems* storeItems, string itemName) {
-    string itemCategory;
-    cout << "Please enter the category of the item: ";
-    getline(cin, itemCategory);
-    itemCategory = MakeLowercase(itemCategory);
-
-    string storeSection;
-    cout << "Please enter the section where the item is found: ";
-    getline(cin, storeSection);
-    storeSection = MakeLowercase(storeSection);
-
-    string stringAisleNumber;
-    unsigned int aisleNumber;
-    cout << "Please enter the aisle number where the item is found, or 0 if no aisle: ";
-    getline(cin, stringAisleNumber);
-    aisleNumber = ConvertToInt(stringAisleNumber);
-
-    GroceryItem* newItem = new GroceryItem(itemName, itemCategory, storeSection, aisleNumber);
+    GroceryItem* newItem = GetItemInfo(itemName);
     bool added = storeItems->AddStoreItem(newItem);
 
     cout << endl;
