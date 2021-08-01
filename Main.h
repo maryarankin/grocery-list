@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "StoreItems.h"
+#include "GroceryList.h"
 using std::string;
 
 /* PRINT FUNCTIONS */
@@ -17,3 +18,4 @@ bool ValidateInputRange(int userInput, int lowerRange, int upperRange);
 GroceryItem* GetItemInfo(string itemName);
 GroceryItem* CreateItem(StoreItems* storeItems);
 GroceryItem* CreateItem(StoreItems* storeItems, string itemName);
+void AddItemsToList(StoreItems* storeItems, GroceryList* list);

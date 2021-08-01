@@ -16,19 +16,19 @@ GroceryItem::~GroceryItem() {
 
 
 /* ACCESSORS */
-string GroceryItem::GetItemName() {
+string GroceryItem::GetItemName() const {
 	return _itemName;
 }
 
-string GroceryItem::GetCategory() {
+string GroceryItem::GetCategory() const {
 	return _itemCategory;
 }
 
-string GroceryItem::GetStoreSection() {
+string GroceryItem::GetStoreSection() const {
 	return _storeSection;
 }
 
-unsigned int GroceryItem::GetAisleNumber() {
+unsigned int GroceryItem::GetAisleNumber() const {
 	return _aisleNumber;
 }
 
@@ -52,6 +52,6 @@ void GroceryItem::SetAisleNumber(unsigned int aisleNumber) {
 
 
 /* FUNCTIONALITY */
-void GroceryItem::PrintItem() {
+void GroceryItem::PrintItem() const {
 	cout << "item: " << _itemName << ", category: " << _itemCategory << ", section: " << _storeSection << ", aisle: " << _aisleNumber << endl;
 }

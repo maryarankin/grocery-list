@@ -14,10 +14,10 @@ public:
 	~GroceryItem();
 	
 	/* ACCESSORS */
-	string GetItemName();
-	string GetCategory();
-	string GetStoreSection();
-	unsigned int GetAisleNumber();
+	string GetItemName() const;
+	string GetCategory() const;
+	string GetStoreSection() const;
+	unsigned int GetAisleNumber() const;
 
 	/* MUTATORS */
 	void SetItemName(string itemName);
@@ -26,6 +26,6 @@ public:
 	void SetAisleNumber(unsigned int aisleNumber);
 
 	/* FUNCTIONALITY */
-	void PrintItem();
+	void PrintItem() const;
 };
 

@@ -10,7 +10,7 @@ GroceryList::GroceryList(string listName) {
 
 
 /* ACCESSORS */
-string GroceryList::GetListName() {
+string GroceryList::GetListName() const {
 	return _listName;
 }
 
@@ -20,7 +20,7 @@ vector<GroceryItem*>& GroceryList::GetListItems() {
 
 
 /* FUNCTIONALITY */
-void GroceryList::PrintGroceryList() {
+void GroceryList::PrintGroceryList() const {
 	if (_listItems.size() == 0) {
 		cout << "No items in list" << endl;
 	}
@@ -29,7 +29,7 @@ void GroceryList::PrintGroceryList() {
 	}
 }
 
-void GroceryList::AddToList(GroceryItem* itemToAdd) {
+void GroceryList::AddItemToList(GroceryItem* itemToAdd) {
 	_listItems.push_back(itemToAdd);
 }
 

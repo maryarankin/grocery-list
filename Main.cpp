@@ -174,44 +174,7 @@ int main()
             GroceryList* newList = new GroceryList(newListName);
             allGroceryLists.push_back(newList);
 
-            string itemToAdd;
-
-            cout << "Press Q when done adding items" << endl;
-            cout << "Add first item to " << newListName << ": ";
-            getline(cin, itemToAdd);
-            itemToAdd = MakeLowercase(itemToAdd);
-
-            while (itemToAdd != "q") {
-                GroceryItem* foundItem = storeItems->FindItem(itemToAdd);
-                if (foundItem == nullptr) {
-                    string createItem;
-                    cout << "This item doesn't exist yet. Would you like to create it?" << endl;
-                    cout << "Press Y for yes or N for no: ";
-                    getline(cin, createItem);
-
-                    if (createItem == "Y" || createItem == "y") {
-                        GroceryItem* newItem = CreateItem(storeItems, itemToAdd);
-                        newList->AddToList(newItem);
-                        cout << "Added " << newItem->GetItemName() << " to list" << endl;
-                        cout << endl;
-                    }
-                    else {
-                        cout << "Item not created" << endl;
-                        cout << endl;
-                    }
-                }
-                else {
-                    newList->AddToList(foundItem);
-                    cout << "Added " << foundItem->GetItemName() << " to list" << endl;
-                    cout << endl;
-                }
-
-                cout << "Press Q when done adding items" << endl;
-                cout << "Add item to " << newListName << ": ";
-                getline(cin, itemToAdd);
-                itemToAdd = MakeLowercase(itemToAdd);
-                cout << endl;
-            }
+            AddItemsToList(storeItems, newList);
         }
 
         else if (userInput == 7) {
@@ -257,43 +220,7 @@ int main()
                 getline(cin, addItems);
 
                 if (addItems == "Y" || addItems == "y") {
-                    string itemToAdd;
-                    cout << "Press Q when done adding items" << endl;
-                    cout << "Add item to " << newListName << ": ";
-                    getline(cin, itemToAdd);
-                    itemToAdd = MakeLowercase(itemToAdd);
-
-                    while (itemToAdd != "q") {
-                        GroceryItem* foundItem = storeItems->FindItem(itemToAdd);
-                        if (foundItem == nullptr) {
-                            string createItem;
-                            cout << "This item doesn't exist yet. Would you like to create it?" << endl;
-                            cout << "Press Y for yes or N for no: ";
-                            getline(cin, createItem);
-
-                            if (createItem == "Y" || createItem == "y") {
-                                GroceryItem* newItem = CreateItem(storeItems, itemToAdd);
-                                newList->AddToList(newItem);
-                                cout << "Added " << newItem->GetItemName() << " to list" << endl;
-                                cout << endl;
-                            }
-                            else {
-                                cout << "Item not created" << endl;
-                                cout << endl;
-                            }
-                        }
-                        else {
-                            newList->AddToList(foundItem);
-                            cout << "Added " << foundItem->GetItemName() << " to list" << endl;
-                            cout << endl;
-                        }
-
-                        cout << "Press Q when done adding items" << endl;
-                        cout << "Add item to " << newListName << ": ";
-                        getline(cin, itemToAdd);
-                        itemToAdd = MakeLowercase(itemToAdd);
-                        cout << endl;
-                    }
+                    AddItemsToList(storeItems, foundList);
                 }
             }
         }
@@ -325,33 +252,7 @@ int main()
                 while (itemChangeInput != 3) {
 
                     if (itemChangeInput == 1) {
-                        string itemToAdd;
-                        cout << "Enter the name of item to add: ";
-                        getline(cin, itemToAdd);
-                        itemToAdd = MakeLowercase(itemToAdd);
-
-                        GroceryItem* foundItem = storeItems->FindItem(itemToAdd);
-                        if (foundItem == nullptr) {
-                            string createItem;
-                            cout << "This item doesn't exist yet. Would you like to create it?" << endl;
-                            cout << "Press Y for yes or N for no: ";
-                            getline(cin, createItem);
-                            if (createItem == "Y" || createItem == "y") {
-                                GroceryItem* newItem = CreateItem(storeItems, itemToAdd);
-                                foundList->AddToList(newItem);
-                                cout << "Added " << newItem->GetItemName() << " to list" << endl;
-                                cout << endl;
-                            }
-                            else {
-                                cout << "Item not created" << endl;
-                                cout << endl;
-                            }
-                        }
-                        else {
-                            foundList->AddToList(foundItem);
-                            cout << "Added " << foundItem->GetItemName() << " to list" << endl;
-                            cout << endl;
-                        }
+                        AddItemsToList(storeItems, foundList);
                     }
 
                     else if (itemChangeInput == 2) {
@@ -500,7 +401,7 @@ unsigned int PrintChangeListMenu() {
     string stringListChangeInput;
     unsigned int listChangeInput = 0;
 
-    cout << "1. Add an item" << endl;
+    cout << "1. Add items" << endl;
     cout << "2. Remove an item" << endl;
     cout << "3. Cancel" << endl;
     cout << endl;
@@ -622,4 +523,43 @@ GroceryItem* CreateItem(StoreItems* storeItems, string itemName) {
     cout << endl;
 
     return newItem;
+}
+
+void AddItemsToList(StoreItems* storeItems, GroceryList* list) {
+    string itemToAdd;
+    cout << "Press Q when done adding items" << endl;
+    cout << "Add item to " << list->GetListName() << ": ";
+    getline(cin, itemToAdd);
+    itemToAdd = MakeLowercase(itemToAdd);
+
+    while (itemToAdd != "q") {
+        GroceryItem* foundItem = storeItems->FindItem(itemToAdd);
+        if (foundItem == nullptr) {
+            string createItem;
+            cout << "This item doesn't exist yet. Would you like to create it?" << endl;
+            cout << "Press Y for yes or N for no: ";
+            getline(cin, createItem);
+            if (createItem == "Y" || createItem == "y") {
+                GroceryItem* newItem = CreateItem(storeItems, itemToAdd);
+                list->AddItemToList(newItem);
+                cout << "Added " << newItem->GetItemName() << " to list" << endl;
+                cout << endl;
+            }
+            else {
+                cout << "Item not created" << endl;
+                cout << endl;
+            }
+        }
+        else {
+            list->AddItemToList(foundItem);
+            cout << "Added " << foundItem->GetItemName() << " to list" << endl;
+            cout << endl;
+        }
+
+        cout << "Press Q when done adding items" << endl;
+        cout << "Add item to " << list->GetListName() << ": ";
+        getline(cin, itemToAdd);
+        itemToAdd = MakeLowercase(itemToAdd);
+        cout << endl;
+    }
 }

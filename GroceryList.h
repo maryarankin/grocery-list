@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "GroceryItem.h"
+#include "StoreItems.h"
 using std::string;
 using std::vector;
 
@@ -13,11 +14,11 @@ public:
 	GroceryList(string listName);
 
 	/* ACCESSORS */
-	string GetListName();
+	string GetListName() const;
 	vector<GroceryItem*>& GetListItems();
 
 	/* FUNCTIONALITY */
-	void PrintGroceryList();
-	void AddToList(GroceryItem* itemToAdd);
+	void PrintGroceryList() const;
+	void AddItemToList(GroceryItem* itemToAdd);
 	void DeleteFromList(GroceryItem* itemToDelete);
 };

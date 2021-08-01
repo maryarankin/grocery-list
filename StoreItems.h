@@ -8,13 +8,12 @@ class StoreItems
 	vector<GroceryItem*> _allItems;
 public:
 	/* ACCESSORS */
-	unsigned int GetTotalNumItems();
+	unsigned int GetTotalNumItems() const;
 	vector<GroceryItem*>& GetAllStoreItems();
 
 	/* FUNCTIONALITY */
-	void PrintAllItems();
+	void PrintAllItems() const;
 	bool AddStoreItem(GroceryItem* newItem);
-	GroceryItem* FindItem(string itemName);
+	GroceryItem* FindItem(string itemName) const;
 	bool DeleteItem(string itemName);
 };
-
